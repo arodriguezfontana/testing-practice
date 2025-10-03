@@ -15,9 +15,6 @@ def run(playwright: Playwright) -> None:
     page.locator("[data-test=\"username\"]").press("Tab")
     page.locator("[data-test=\"password\"]").fill("secret_sauce")
     page.locator("[data-test=\"login-button\"]").click()
-    page.locator("[data-test=\"add-to-cart-sauce-labs-backpack\"]").click()
-    page.locator("[data-test=\"add-to-cart-sauce-labs-bolt-t-shirt\"]").click()
-    page.locator("[data-test=\"shopping-cart-link\"]").click()
     page.locator("[data-test=\"checkout\"]").click()
 
     # ---------------------

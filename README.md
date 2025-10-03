@@ -1,3 +1,4 @@
 # testing-practice
-1. Playwright con codegen
-2. Playwright con gherkin y cucumber
+En este repositorio se podran visualizar mis practicas de testing.
+
+1. Playwright + Cucumber + POM
