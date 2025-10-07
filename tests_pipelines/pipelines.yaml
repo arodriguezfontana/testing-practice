@@ -1,23 +1,19 @@
 trigger:
-# Indica que el pipeline se ejecuta automáticamente cada vez que hay un cambio (push/merge) en las ramas main o dev
 - main
 - dev
 
 pool:
-# Selecciona el agent pool llamado Default y exige que el agente tenga el nombre Nombre-De-Mi-Agente. Esto significa que el job se ejecutará en un agente con ese nombre; si no existe, fallará la selección del agente.
   demands:
   - Agent.Name -equals Nombre-De-Mi-Agente
 
 steps:
-# Pasos que va a realizar
-- task: AzureCLI@2 # Tarea integrada que ejecuta Azure CLI.
-  displayName: 'Desplegar DB usando un pipeline' # Nombre para diferenciar el paso.
+- task: AzureCLI@2 
+  displayName: 'Desplegar DB usando un pipeline'
   inputs:
-    azureSubscription: 'nombre-de-service-conection' # Nombre de la service connection para autenticarse en Azure.
-    scriptType: ps # El script es PowerShell
-    scriptLocation: inlineScript # El script de incluye directamente en el YAML.
+    azureSubscription: 'nombre-de-service-conection' 
+    scriptType: ps 
+    scriptLocation: inlineScript 
     inlineScript: |  
-      # Variables
       $RESOURCE_GROUP = "nombre-del-grupo-de-recursos"
       $LOCATION = "centralus"
       $SQL_SERVER_NAME = "nombre-del-servidor-sql"
@@ -25,11 +21,9 @@ steps:
       $ADMIN_PASSWORD = "clave-segura"
       $DATABASE_NAME = "myDatabase"
 
-      # Creacion del grupo de recursos
       Write-Output "Creando el grupo de recursos..."
       az group create --name $RESOURCE_GROUP --location $LOCATION
 
-      # Creacion del servidor SQL
       Write-Output "Creando el servidor SQL..."
       az sql server create `
         --name $SQL_SERVER_NAME `
@@ -38,7 +32,6 @@ steps:
         --admin-user $ADMIN_USER `
         --admin-password $ADMIN_PASSWORD
 
-      # Creacion de reglas de firewall
       Write-Output "Configurando reglas de firewall para permitir acceso..."
       az sql server firewall-rule create `
         --resource-group $RESOURCE_GROUP `
@@ -47,7 +40,6 @@ steps:
         --start-ip-address 0.0.0.0 `
         --end-ip-address 255.255.255.255
 
-      # Creacion de la base de datos SQL
       Write-Output "Creando la base de datos SQL..."
       az sql db create `
         --resource-group $RESOURCE_GROUP `
@@ -55,5 +47,4 @@ steps:
         --name $DATABASE_NAME `
         --service-objective S0
 
-      # Mensaje indicando que el script terminó
       Write-Output "Despliegue completado exitosamente."
