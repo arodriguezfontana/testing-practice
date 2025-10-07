@@ -10,7 +10,7 @@ steps:
 - task: AzureCLI@2 
   displayName: 'Desplegar DB usando un pipeline'
   inputs:
-    azureSubscription: 'nombre-de-service-conection' 
+    azureSubscription: 'nombre-del-service-conection' 
     scriptType: ps 
     scriptLocation: inlineScript 
     inlineScript: |  

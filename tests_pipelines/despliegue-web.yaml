@@ -1,0 +1,29 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - task: DotNetCoreCLI@2
+    displayName: 'Compilacion'
+    inputs:
+      command: 'build'
+      projects: '**/*.csproj'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/websiteabril'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Publicacion'
+    inputs:
+      command: 'publish'
+      publishWebProjects: true
+      workingDirectory: '$(System.DefaultWorkingDirectory)/websiteabril'
+
+  - task: AzureRmWebAppDeployment@4
+    displayName: 'Despliegue'
+    inputs:
+      ConnectionType: 'AzureRM'
+      azureSubscription: 'nombre-del-service-conection'
+      appType: 'webAppLinux'
+      WebAppName: 'nombre-de-la-app'
+      packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
